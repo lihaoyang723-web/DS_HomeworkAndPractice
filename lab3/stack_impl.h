@@ -21,8 +21,7 @@ Stack<T>::~Stack() {
 
 template <typename T>
 void Stack<T>::push(T t) {
-    Node<T>*tmp = new Node<T>;
-    tmp -> val = t;
+    Node<T>*tmp = new Node<T>(t);
     tmp -> next = head;
     head = tmp;
     sz ++;

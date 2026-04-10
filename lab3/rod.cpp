@@ -5,7 +5,11 @@ Rod::Rod(const int capacity, const int id) : /* TODO */capacity(capacity),id(id)
 
 bool Rod::push(const Disk d) {
     // TODO
+    if (full()) {
+        return false;
+    }
     stack.push(d);
+    return true;
 }
 
 const Disk &Rod::top() {
@@ -32,6 +36,17 @@ bool Rod::full() const {
     return stack.size() == capacity;
 }
 void Rod::draw(Canvas &canvas) {
-    // TODO
-    canvas.draw();
+    Stack<const Disk> temp;
+    while (!stack.empty()) {
+        temp.push(stack.top());
+        stack.pop();
+    }
+    int level = 0;
+    while (!temp.empty()) {
+        const Disk& disk = temp.top();
+        disk.draw(canvas, level, id);
+        stack.push(disk);
+        temp.pop();
+        level++;
+    }
 }

@@ -22,10 +22,14 @@ Queue<T>::~Queue() {
 
 template <typename T>
 void Queue<T>::push(T t) {
-    // TODO
-    tail -> next = new Node<T>(t,nullptr);
-    tail = tail -> next;
-    sz ++;
+    if (empty()) {
+        head = new Node<T>(t);
+        tail = head;
+    } else {
+        tail->next = new Node<T>(t);
+        tail = tail->next;
+    }
+    sz++;
  }
 
 template <typename T>

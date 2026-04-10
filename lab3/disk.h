@@ -10,7 +10,6 @@ public:
 
     Disk() : id(-1), val(-1) {}
     Disk(const int id, const int val) : id(id), val(val) { }
-
     void draw(Canvas &canvas, const int level, const int rod_loc) const {
         const int s_x = 5 + (rod_loc * 15) - (val / 2);
         const int y = Canvas::HEIGHT - (level + 1) * 2;
