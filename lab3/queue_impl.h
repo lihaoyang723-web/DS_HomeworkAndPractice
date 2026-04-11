@@ -1,5 +1,6 @@
 #ifndef QUEUE_IMPL_H
 #define QUEUE_IMPL_H
+#include "queue.h"
 #include <cassert>
 #include <cstddef>
 
@@ -34,16 +35,19 @@ void Queue<T>::push(T t) {
 
 template <typename T>
 void Queue<T>::pop() {
-    // TODO
+    assert(!empty());
     Node <T> * tmp = head;
     head = head -> next;
     sz --;
     delete tmp;
+    if (head == nullptr) {
+        tail = nullptr;
+    }
 }
 
 template <typename T>
 T &Queue<T>::front() {
-    // TODO
+    assert(!empty());
     return head -> val;
 }
 

@@ -5,9 +5,12 @@ Rod::Rod(const int capacity, const int id) : /* TODO */capacity(capacity),id(id)
 
 bool Rod::push(const Disk d) {
     // TODO
-    if (full()) {
-        return false;
+    if (full()) return false;
+    if(stack.empty()) {
+        stack.push(d);
+        return true;
     }
+    if(d.val > stack.top().val) return false;
     stack.push(d);
     return true;
 }

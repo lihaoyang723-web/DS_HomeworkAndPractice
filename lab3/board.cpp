@@ -20,14 +20,24 @@ Board::Board(const int num_disk) : /* TODO */ num_disk(num_disk),rods{Rod(num_di
 
 Board::~Board() {
     // TODO
-    delete disks;
-    // unfinished
+    delete[] disks;
 }
 
 void Board::draw() {
     Canvas canvas {};
     canvas.reset();
-    // TODO
+    for (int row = 0; row < Canvas::HEIGHT - 1; row++) {
+        canvas.buffer[row][5] = '|';
+        canvas.buffer[row][20] = '|';
+        canvas.buffer[row][35] = '|';
+    }
+    for (int col = 0; col < Canvas::WIDTH; col++) {
+        canvas.buffer[Canvas::HEIGHT - 1][col] = '-';
+    }
+    canvas.buffer[Canvas::HEIGHT - 1][5] = '|';
+    canvas.buffer[Canvas::HEIGHT - 1][20] = '|';
+    canvas.buffer[Canvas::HEIGHT - 1][35] = '|';
+
     rods[0].draw(canvas);
     rods[1].draw(canvas);
     rods[2].draw(canvas);
@@ -36,17 +46,29 @@ void Board::draw() {
 
 void Board::move(int from, int to, const bool log) {
     // TODO
+    if (from < 1 || from > static_cast<int>(ROD_SIZE) || to < 1 || to > static_cast<int>(ROD_SIZE)) return;
+    if(from == to) return ;
+    if(rods[from - 1].empty()) return ;
     if(log == true)
     {
-        history.push(std::pair<int,int>(from,to));
-        rods[to - 1].push(rods[from - 1].top());
-        rods[from - 1].pop();
+        if(rods[to - 1].push(rods[from - 1].top()))
+        {
+            rods[from - 1].pop();
+            history.push(std::pair<int,int>(from,to));
+            return ;
+        }
+        else
+            {
+                return ;
+            }
     }
     else
     {
-        history.pop();
-        rods[to - 1].push(rods[from - 1].top());
-        rods[from - 1].pop();
+        if(rods[to - 1].push(rods[from - 1].top()))
+        {
+            history.pop();
+            rods[from - 1].pop();
+        }
     }
 }
 
